@@ -10,12 +10,18 @@ import {
   VStack,
   IconButton,
   CloseButton,
+  Tag,
+  Avatar,
+  TagLabel,
 } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 import { AiOutlineMenu } from "react-icons/ai";
+import Link from "next/link";
 import React from "react";
 function Index() {
   const bg = useColorModeValue("white", "gray.800");
   const mobileNav = useDisclosure();
+  const user = useSelector((state) => state.user);
   return (
     <React.Fragment>
       <chakra.header
@@ -35,9 +41,11 @@ function Index() {
             >
               <VisuallyHidden>Choc</VisuallyHidden>
             </chakra.a>
-            <chakra.h1 fontSize="xl" fontWeight="medium" ml="2">
-              Ecommerce
-            </chakra.h1>
+            <Link href="/">
+              <chakra.h1 fontSize="xl" fontWeight="medium" ml="2">
+                Ecommerce
+              </chakra.h1>
+            </Link>
           </Flex>
           <HStack display="flex" alignItems="center" spacing={1}>
             <HStack
@@ -46,11 +54,43 @@ function Index() {
               color="brand.500"
               display={{ base: "none", md: "inline-flex" }}
             >
-              <Button variant="ghost">Features</Button>
-              <Button variant="ghost">Pricing</Button>
-              <Button variant="ghost">Blog</Button>
-              <Button variant="ghost">Company</Button>
-              <Button variant="ghost">Sign in</Button>
+              <Link href="/">
+                <Button variant="ghost">Home</Button>
+              </Link>
+              <Link href="/login">
+                <Button variant="ghost">Signin</Button>
+              </Link>
+              <Link href="/register">
+                <Button variant="ghost">Signup</Button>
+              </Link>
+              {user.authenticated && (
+                <Link href="/profile">
+                  <Button
+                    variant="ghost"
+                    color={useColorModeValue("blue.400", "whiteAlpha.500")}
+                    borderColor="gray.300"
+                    _hover={{
+                      color: useColorModeValue("gray.400", "whiteAlpha.500"),
+                      borderColor: "whiteAlpha.500",
+                    }}
+                  >
+                    Anirban
+                  </Button>
+                </Link>
+              )}
+
+              {user.authenticated && (
+                <Tag size="lg" colorScheme="red" borderRadius="full">
+                  <Avatar
+                    src="https://bit.ly/sage-adebayo"
+                    size="xs"
+                    name="4"
+                    ml={-1}
+                    mr={2}
+                  />
+                  <TagLabel>Item</TagLabel>
+                </Tag>
+              )}
             </HStack>
             <Button colorScheme="brand" size="sm">
               Get Started
@@ -86,20 +126,14 @@ function Index() {
                   onClick={mobileNav.onClose}
                 />
 
-                <Button w="full" variant="ghost">
-                  Features
-                </Button>
-                <Button w="full" variant="ghost">
-                  Pricing
-                </Button>
-                <Button w="full" variant="ghost">
-                  Blog
-                </Button>
-                <Button w="full" variant="ghost">
-                  Company
-                </Button>
-                <Button w="full" variant="ghost">
-                  Sign in
+                <Button variant="ghost">Home</Button>
+                <Button variant="ghost">Signin</Button>
+                <Button variant="ghost">Signup</Button>
+                <Button
+                  variant="ghost"
+                  color={useColorModeValue("white", "gray.800")}
+                >
+                  Anirban
                 </Button>
               </VStack>
             </Box>

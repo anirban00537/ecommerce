@@ -1,115 +1,194 @@
 import {
+  Box,
+  chakra,
   Container,
   Stack,
-  Flex,
-  Box,
-  Heading,
   Text,
-  Button,
   Image,
-  IconButton,
+  Flex,
+  VStack,
+  Button,
+  Heading,
+  SimpleGrid,
+  StackDivider,
+  useColorModeValue,
+  VisuallyHidden,
+  List,
+  ListItem,
 } from "@chakra-ui/react";
+import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { MdLocalShipping } from "react-icons/md";
 
-export default function CallToActionWithVideo() {
+export default function Details() {
   return (
     <Container maxW={"7xl"}>
-      <Stack
-        align={"center"}
+      <SimpleGrid
+        columns={{ base: 1, lg: 2 }}
         spacing={{ base: 8, md: 10 }}
-        py={{ base: 20, md: 28 }}
-        direction={{ base: "column", md: "row" }}
+        py={{ base: 18, md: 24 }}
       >
-        <Stack flex={1} spacing={{ base: 5, md: 10 }}>
-          <Heading
-            lineHeight={1.1}
-            fontWeight={600}
-            fontSize={{ base: "3xl", sm: "4xl", lg: "6xl" }}
-          >
-            <Text
-              as={"span"}
-              position={"relative"}
-              _after={{
-                content: "''",
-                width: "full",
-                height: "30%",
-                position: "absolute",
-                bottom: 1,
-                left: 0,
-                bg: "red.400",
-                zIndex: -1,
-              }}
+        <Flex>
+          <Image
+            rounded={"md"}
+            alt={"product image"}
+            src={
+              "https://images.unsplash.com/photo-1596516109370-29001ec8ec36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE1MDl8MHwxfGFsbHx8fHx8fHx8fDE2Mzg5MzY2MzE&ixlib=rb-1.2.1&q=80&w=1080"
+            }
+            fit={"cover"}
+            align={"center"}
+            w={"100%"}
+            h={{ base: "100%", sm: "400px", lg: "500px" }}
+          />
+        </Flex>
+        <Stack spacing={{ base: 6, md: 10 }}>
+          <Box as={"header"}>
+            <Heading
+              lineHeight={1.1}
+              fontWeight={600}
+              fontSize={{ base: "2xl", sm: "4xl", lg: "5xl" }}
             >
-              Write once,
+              Automatic Watch
+            </Heading>
+            <Text
+              color={useColorModeValue("gray.900", "gray.400")}
+              fontWeight={300}
+              fontSize={"2xl"}
+            >
+              $350.00 USD
             </Text>
-            <br />
-            <Text as={"span"} color={"red.400"}>
-              use everywhere!
-            </Text>
-          </Heading>
-          <Text color={"gray.500"}>
-            Snippy is a rich coding snippets app that lets you create your own
-            code snippets, categorize them, and even sync them in the cloud so
-            you can use them anywhere. All that is free!
-          </Text>
+          </Box>
+
           <Stack
             spacing={{ base: 4, sm: 6 }}
-            direction={{ base: "column", sm: "row" }}
+            direction={"column"}
+            divider={
+              <StackDivider
+                borderColor={useColorModeValue("gray.200", "gray.600")}
+              />
+            }
           >
-            <Button
-              rounded={"full"}
-              size={"lg"}
-              fontWeight={"normal"}
-              px={6}
-              colorScheme={"red"}
-              bg={"red.400"}
-              _hover={{ bg: "red.500" }}
-            >
-              Get started
-            </Button>
-            <Button rounded={"full"} size={"lg"} fontWeight={"normal"} px={6}>
-              How It Works
-            </Button>
+            <VStack spacing={{ base: 4, sm: 6 }}>
+              <Text
+                color={useColorModeValue("gray.500", "gray.400")}
+                fontSize={"2xl"}
+                fontWeight={"300"}
+              >
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                diam nonumy eirmod tempor invidunt ut labore
+              </Text>
+              <Text fontSize={"lg"}>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
+                aliquid amet at delectus doloribus dolorum expedita hic, ipsum
+                maxime modi nam officiis porro, quae, quisquam quos
+                reprehenderit velit? Natus, totam.
+              </Text>
+            </VStack>
+            <Box>
+              <Text
+                fontSize={{ base: "16px", lg: "18px" }}
+                color={useColorModeValue("yellow.500", "yellow.300")}
+                fontWeight={"500"}
+                textTransform={"uppercase"}
+                mb={"4"}
+              >
+                Features
+              </Text>
+
+              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+                <List spacing={2}>
+                  <ListItem>Chronograph</ListItem>
+                  <ListItem>Master Chronometer Certified</ListItem>{" "}
+                  <ListItem>Tachymeter</ListItem>
+                </List>
+                <List spacing={2}>
+                  <ListItem>Anti‑magnetic</ListItem>
+                  <ListItem>Chronometer</ListItem>
+                  <ListItem>Small seconds</ListItem>
+                </List>
+              </SimpleGrid>
+            </Box>
+            <Box>
+              <Text
+                fontSize={{ base: "16px", lg: "18px" }}
+                color={useColorModeValue("yellow.500", "yellow.300")}
+                fontWeight={"500"}
+                textTransform={"uppercase"}
+                mb={"4"}
+              >
+                Product Details
+              </Text>
+
+              <List spacing={2}>
+                <ListItem>
+                  <Text as={"span"} fontWeight={"bold"}>
+                    Between lugs:
+                  </Text>{" "}
+                  20 mm
+                </ListItem>
+                <ListItem>
+                  <Text as={"span"} fontWeight={"bold"}>
+                    Bracelet:
+                  </Text>{" "}
+                  leather strap
+                </ListItem>
+                <ListItem>
+                  <Text as={"span"} fontWeight={"bold"}>
+                    Case:
+                  </Text>{" "}
+                  Steel
+                </ListItem>
+                <ListItem>
+                  <Text as={"span"} fontWeight={"bold"}>
+                    Case diameter:
+                  </Text>{" "}
+                  42 mm
+                </ListItem>
+                <ListItem>
+                  <Text as={"span"} fontWeight={"bold"}>
+                    Dial color:
+                  </Text>{" "}
+                  Black
+                </ListItem>
+                <ListItem>
+                  <Text as={"span"} fontWeight={"bold"}>
+                    Crystal:
+                  </Text>{" "}
+                  Domed, scratch‑resistant sapphire crystal with anti‑reflective
+                  treatment inside
+                </ListItem>
+                <ListItem>
+                  <Text as={"span"} fontWeight={"bold"}>
+                    Water resistance:
+                  </Text>{" "}
+                  5 bar (50 metres / 167 feet){" "}
+                </ListItem>
+              </List>
+            </Box>
+          </Stack>
+
+          <Button
+            rounded={"none"}
+            w={"full"}
+            mt={8}
+            size={"lg"}
+            py={"7"}
+            bg={useColorModeValue("gray.900", "gray.50")}
+            color={useColorModeValue("white", "gray.900")}
+            textTransform={"uppercase"}
+            _hover={{
+              transform: "translateY(2px)",
+              boxShadow: "lg",
+            }}
+          >
+            Add to cart
+          </Button>
+
+          <Stack direction="row" alignItems="center" justifyContent={"center"}>
+            <MdLocalShipping />
+            <Text>2-3 business days delivery</Text>
           </Stack>
         </Stack>
-        <Flex
-          flex={1}
-          justify={"center"}
-          align={"center"}
-          position={"relative"}
-          w={"full"}
-        >
-          <Box
-            position={"relative"}
-            height={"300px"}
-            rounded={"2xl"}
-            boxShadow={"2xl"}
-            width={"full"}
-            overflow={"hidden"}
-          >
-            <IconButton
-              aria-label={"Play Button"}
-              variant={"ghost"}
-              _hover={{ bg: "transparent" }}
-              size={"lg"}
-              color={"white"}
-              position={"absolute"}
-              left={"50%"}
-              top={"50%"}
-              transform={"translateX(-50%) translateY(-50%)"}
-            />
-            <Image
-              alt={"Hero Image"}
-              fit={"cover"}
-              align={"center"}
-              w={"100%"}
-              h={"100%"}
-              src={
-                "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80"
-              }
-            />
-          </Box>
-        </Flex>
-      </Stack>
+      </SimpleGrid>
     </Container>
   );
 }
