@@ -1,11 +1,10 @@
 import {
   setAuthenticatedTrue,
   setAuthenticatedFalse,
-  setErrorMessageAndLoginErrorStatus,
   setUser,
 } from "../reducer/user";
 import Router from "next/router";
-import { login, getProfileByToken } from "../../service/authentication";
+import { login, getProfileByToken, signup } from "../../service/authentication";
 import Cookie from "js-cookie";
 export const loginAction = (credential) => async (dispatch) => {
   try {
@@ -13,31 +12,38 @@ export const loginAction = (credential) => async (dispatch) => {
 
     Cookie.set("token", data.data.json_object.token);
     dispatch(setAuthenticatedTrue());
-    dispatch(
-      setErrorMessageAndLoginErrorStatus({
-        message: "",
-        LoginErrorStatus: false,
-      })
-    );
-    Router.push("/");
+
+    Router.replace("/");
   } catch (error) {
     if (error.response) {
       dispatch(setAuthenticatedFalse());
-      dispatch(
-        setErrorMessageAndLoginErrorStatus({
-          message: error.response.data.data.json_object.username,
-          LoginErrorStatus: true,
-        })
-      );
 
-      setTimeout(() => {
-        dispatch(
-          setErrorMessageAndLoginErrorStatus({
-            message: "",
-            LoginErrorStatus: false,
-          })
-        );
-      }, 5000);
+      return {
+        username: error.response.data.data.json_object.username,
+        password: error.response.data.data.json_object.password,
+      };
+    }
+  }
+};
+
+export const signupAction = (credential) => async (dispatch) => {
+  try {
+    const { data } = await signup(credential);
+    console.log(data, "data register");
+    Cookie.set("token", data.data.json_object.token);
+    dispatch(setAuthenticatedTrue());
+    Router.replace("/");
+  } catch (error) {
+    if (error.response) {
+      dispatch(setAuthenticatedFalse());
+      return {
+        username: error.response.data.data.json_object.username,
+        password: error.response.data.data.json_object.password,
+        email: error.response.data.data.json_object.email,
+        phone: error.response.data.data.json_object.phone,
+      };
+    } else {
+      return {};
     }
   }
 };
@@ -61,4 +67,10 @@ export const CheckAuthState = () => (dispatch) => {
   } catch (error) {
     console.log(error, "error");
   }
+};
+
+export const logoutAction = () => (dispatch) => {
+  Cookie.remove("token");
+  dispatch(setAuthenticatedFalse());
+  Router.replace("/");
 };

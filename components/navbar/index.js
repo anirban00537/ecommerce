@@ -10,19 +10,21 @@ import {
   VStack,
   IconButton,
   CloseButton,
-  Tag,
-  Avatar,
-  TagLabel,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AiOutlineMenu } from "react-icons/ai";
+import { logoutAction } from "../../state/action/authenticaiton";
 import Link from "next/link";
 import React from "react";
 function Index() {
   const bg = useColorModeValue("white", "gray.800");
   const mobileNav = useDisclosure();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
+  const UserLogout = () => {
+    dispatch(logoutAction());
+  };
   return (
     <React.Fragment>
       <chakra.header
@@ -87,16 +89,25 @@ function Index() {
               )}
 
               {user.authenticated && (
-                // cart ui with chakra ui
-                <Link href="/cart">
+                <>
+                  <Link href="/cart">
+                    <Button
+                      variant="ghost"
+                      color="pink.300"
+                      borderColor="gray.300"
+                    >
+                      {cart?.items?.length} Items
+                    </Button>
+                  </Link>
+
                   <Button
                     variant="ghost"
-                    color="pink.300"
-                    borderColor="gray.300"
+                    color={useColorModeValue("pink.400", "gray.800")}
+                    onClick={UserLogout}
                   >
-                    {cart?.items?.length} Items
+                    Logout
                   </Button>
-                </Link>
+                </>
               )}
             </HStack>
             <Button colorScheme="brand" size="sm">
@@ -144,12 +155,6 @@ function Index() {
                     </Link>
                   </>
                 )}
-                <Button
-                  variant="ghost"
-                  color={useColorModeValue("white", "gray.800")}
-                >
-                  Anirban
-                </Button>
               </VStack>
             </Box>
           </HStack>

@@ -6,15 +6,15 @@ import {
   Input,
   Checkbox,
   Stack,
-  Link,
+  Text,
   Button,
   Heading,
   useColorModeValue,
 } from "@chakra-ui/react";
-import AlertBox from "../components/alert/Alert";
 import { useState } from "react";
+import Link from "next/link";
 import { loginAction } from "../state/action/authenticaiton";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authPageRequireCheck } from "../middleware/authCheck";
 
 export default function Login() {
@@ -22,12 +22,24 @@ export default function Login() {
     username: "",
     password: "",
   });
-  const { LoginErrorStatus, message } = useSelector(
-    (state) => state.user.error
-  );
+  const [alertMessage, setalertMessage] = useState({
+    username: "",
+    password: "",
+  });
   const dispatch = useDispatch();
-  const Login = () => {
-    dispatch(loginAction(credential));
+  const Login = async () => {
+    setalertMessage({
+      username: "",
+      password: "",
+    });
+    const { username, password } = await dispatch(loginAction(credential));
+    if (username || password) {
+      setalertMessage({
+        ...alertMessage,
+        username: username,
+        password: password,
+      });
+    }
   };
   return (
     <Flex
@@ -49,6 +61,9 @@ export default function Login() {
           <Stack spacing={4}>
             <FormControl id="Username">
               <FormLabel>Username </FormLabel>
+
+              {/* red error message */}
+
               <Input
                 type="text"
                 placeholder="Username"
@@ -57,6 +72,9 @@ export default function Login() {
                   setcredential({ ...credential, username: e.target.value });
                 }}
               />
+              {alertMessage.username && (
+                <Text color="red.500">{alertMessage.username}</Text>
+              )}
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
@@ -68,6 +86,9 @@ export default function Login() {
                   setcredential({ ...credential, password: e.target.value });
                 }}
               />
+              {alertMessage.password && (
+                <Text color="red.500">{alertMessage.password}</Text>
+              )}
             </FormControl>
             <Stack spacing={10}>
               <Stack
@@ -76,7 +97,14 @@ export default function Login() {
                 justify={"space-between"}
               >
                 <Checkbox>Remember me</Checkbox>
-                <Link color={"blue.400"}>Forgot password?</Link>
+                <Link
+                  href={{
+                    pathname: "/forgot-password",
+                  }}
+                  color={"blue.400"}
+                >
+                  Forgot password?
+                </Link>
               </Stack>
 
               <Button
@@ -88,12 +116,16 @@ export default function Login() {
                 }}
                 onClick={Login}
               >
-                Sign in{LoginErrorStatus}
+                Sign in
               </Button>
+              <Link href="/signup">
+                <Text isExternal color="blue.500">
+                  Dont have an account?
+                </Text>
+              </Link>
             </Stack>
           </Stack>
         </Box>
-        {LoginErrorStatus && <AlertBox message={message} status="error" />}
       </Stack>
     </Flex>
   );
