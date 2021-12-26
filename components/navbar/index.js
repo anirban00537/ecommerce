@@ -57,12 +57,18 @@ function Index() {
               <Link href="/">
                 <Button variant="ghost">Home</Button>
               </Link>
-              <Link href="/login">
-                <Button variant="ghost">Signin</Button>
-              </Link>
-              <Link href="/register">
-                <Button variant="ghost">Signup</Button>
-              </Link>
+
+              {user.isAuthenticated === false && (
+                <React.Fragment>
+                  <Link href="/login">
+                    <Button variant="ghost">Signin</Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button variant="ghost">Signup</Button>
+                  </Link>
+                </React.Fragment>
+              )}
+
               {user.authenticated && (
                 <Link href="/profile">
                   <Button
@@ -127,8 +133,16 @@ function Index() {
                 />
 
                 <Button variant="ghost">Home</Button>
-                <Button variant="ghost">Signin</Button>
-                <Button variant="ghost">Signup</Button>
+                {user.isAuthenticated === false && (
+                  <React.Fragment>
+                    <Link href="/login">
+                      <Button variant="ghost">Signin</Button>
+                    </Link>
+                    <Link href="/register">
+                      <Button variant="ghost">Signup</Button>
+                    </Link>
+                  </React.Fragment>
+                )}
                 <Button
                   variant="ghost"
                   color={useColorModeValue("white", "gray.800")}

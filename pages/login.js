@@ -11,15 +11,19 @@ import {
   Heading,
   useColorModeValue,
 } from "@chakra-ui/react";
+import AlertBox from "../components/alert/Alert";
 import { useState } from "react";
 import { loginAction } from "../state/action/authenticaiton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Login() {
   const [credential, setcredential] = useState({
     username: "",
     password: "",
   });
+  const { LoginErrorStatus, message } = useSelector(
+    (state) => state.user.error
+  );
   const dispatch = useDispatch();
   const Login = () => {
     dispatch(loginAction(credential));
@@ -73,6 +77,7 @@ export default function Login() {
                 <Checkbox>Remember me</Checkbox>
                 <Link color={"blue.400"}>Forgot password?</Link>
               </Stack>
+
               <Button
                 bg={"blue.400"}
                 color={"white"}
@@ -82,11 +87,12 @@ export default function Login() {
                 }}
                 onClick={Login}
               >
-                Sign in
+                Sign in{LoginErrorStatus}
               </Button>
             </Stack>
           </Stack>
         </Box>
+        {LoginErrorStatus && <AlertBox message={message} status="error" />}
       </Stack>
     </Flex>
   );
