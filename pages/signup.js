@@ -179,14 +179,6 @@ export default function Signup() {
               <Button
                 bg={"blue.400"}
                 color={"white"}
-                // disabled={
-                //   credential.username === "" ||
-                //   credential.password === "" ||
-                //   credential.email === "" ||
-                //   credential.phone === "" ||
-                //   credential.name === "" ||
-                //   credential.password_confirmation === ""
-                // }
                 _hover={{
                   bg: "blue.500",
                 }}

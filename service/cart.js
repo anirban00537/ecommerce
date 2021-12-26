@@ -7,3 +7,7 @@ export const getCartByToken = () => {
 export const addCart = (formData) => {
   return request.post(`/cart`, formData);
 };
+
+export const deleteCartItem = (id) => {
+  return request.delete(`/cart/${id}`);
+};

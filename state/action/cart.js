@@ -1,5 +1,5 @@
-import { getCartByToken } from "../../service/cart";
-import { getCart, addCart } from "../reducer/cart";
+import { getCartByToken, deleteCartItem } from "../../service/cart";
+import { getCart } from "../reducer/cart";
 
 export const getCartByTokenAction = () => async (dispatch) => {
   try {
@@ -13,6 +13,14 @@ export const addCartAction = (foormData) => async (dispatch) => {
   try {
     const { data } = await getCartByToken(foormData);
     console.log(data, "data");
+    dispatch(getCart(data.data.json_object));
+  } catch (error) {}
+};
+
+export const deleteCartItemAction = (id) => async (dispatch) => {
+  try {
+    const { data } = await deleteCartItem(id);
+    console.log(data, "delete");
     dispatch(getCart(data.data.json_object));
   } catch (error) {}
 };

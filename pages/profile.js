@@ -9,6 +9,7 @@ import {
   Link,
   Badge,
   useColorModeValue,
+  WrapItem,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { ssrAuthCheck } from "../middleware/authCheck";
@@ -28,26 +29,8 @@ export default function Profile() {
         p={6}
         textAlign={"center"}
       >
-        <Avatar
-          size={"xl"}
-          src={
-            "https://images.unsplash.com/photo-1520810627419-35e362c5dc07?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-          }
-          alt={"Avatar Alt"}
-          mb={4}
-          pos={"relative"}
-          _after={{
-            content: '""',
-            w: 4,
-            h: 4,
-            bg: "green.300",
-            border: "2px solid white",
-            rounded: "full",
-            pos: "absolute",
-            bottom: 0,
-            right: 3,
-          }}
-        />
+        <Avatar name={user?.name} src="https://bit.ly/dan-abramov" />
+
         <Heading fontSize={"2xl"} fontFamily={"body"}>
           {user?.name}
         </Heading>

@@ -17,10 +17,14 @@ export const loginAction = (credential) => async (dispatch) => {
   } catch (error) {
     if (error.response) {
       dispatch(setAuthenticatedFalse());
-
       return {
         username: error.response.data.data.json_object.username,
         password: error.response.data.data.json_object.password,
+      };
+    } else {
+      return {
+        username: "",
+        password: "",
       };
     }
   }

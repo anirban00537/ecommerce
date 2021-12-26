@@ -32,7 +32,9 @@ export default function Login() {
       username: "",
       password: "",
     });
-    const { username, password } = await dispatch(loginAction(credential));
+    const result = await dispatch(loginAction(credential));
+    if (!result) return;
+    const { username, password } = result;
     if (username || password) {
       setalertMessage({
         ...alertMessage,
