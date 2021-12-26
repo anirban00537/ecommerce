@@ -2,6 +2,9 @@ import {
   setAuthenticatedTrue,
   setAuthenticatedFalse,
   setUser,
+  stepOne,
+  stepTwo,
+  stepThree,
 } from "../reducer/user";
 import Router from "next/router";
 import {
@@ -100,7 +103,10 @@ export const sendEmailForGetPasswordAction = async (email) => {
     const formData = new FormData();
     formData.append("email", email);
     const { data } = await sendEmailForGetPassword(formData);
-    console.log(data, "data send email");
+    if (data.status === 200) {
+      console.log(data.status, "data send email");
+      stepTwo();
+    }
   } catch (error) {
     console.log(error, "error");
   }
