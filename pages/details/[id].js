@@ -16,15 +16,20 @@ import {
 } from "@chakra-ui/react";
 import { addCartAction } from "../../state/action/cart";
 import { MdLocalShipping } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getProductDetails } from "../../service/products";
+import { useRouter } from "next/router";
 
 export default function Details({ product }) {
+  const router = useRouter();
+  const { id } = router.query;
+  const { authenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  //form data for product details
-  console.log(product, "product");
-
   const addToCart = () => {
+    if (!authenticated) {
+      router.push(`/login?redirect=details/${id}`);
+      return;
+    }
     const formData = new FormData();
     formData.append("product_id", product.id);
     formData.append("quantity", 1);

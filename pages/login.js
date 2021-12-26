@@ -16,8 +16,10 @@ import Link from "next/link";
 import { loginAction } from "../state/action/authenticaiton";
 import { useDispatch } from "react-redux";
 import { authPageRequireCheck } from "../middleware/authCheck";
-
+import { useRouter } from "next/router";
 export default function Login() {
+  const router = useRouter();
+  const { redirect } = router.query;
   const [credential, setcredential] = useState({
     username: "",
     password: "",
@@ -32,7 +34,7 @@ export default function Login() {
       username: "",
       password: "",
     });
-    const result = await dispatch(loginAction(credential));
+    const result = await dispatch(loginAction(credential, redirect));
     if (!result) return;
     const { username, password } = result;
     if (username || password) {

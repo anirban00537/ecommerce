@@ -66,7 +66,7 @@ function Index() {
                   <Link href="/login">
                     <Button variant="ghost">Signin</Button>
                   </Link>
-                  <Link href="/register">
+                  <Link href="/signup">
                     <Button variant="ghost">Signup</Button>
                   </Link>
                 </>
@@ -150,7 +150,7 @@ function Index() {
                     <Link href="/login">
                       <Button variant="ghost">Signin</Button>
                     </Link>
-                    <Link href="/register">
+                    <Link href="/signup">
                       <Button variant="ghost">Signup</Button>
                     </Link>
                   </>

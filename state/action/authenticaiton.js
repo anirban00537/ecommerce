@@ -4,16 +4,24 @@ import {
   setUser,
 } from "../reducer/user";
 import Router from "next/router";
-import { login, getProfileByToken, signup } from "../../service/authentication";
+import {
+  login,
+  getProfileByToken,
+  signup,
+  sendEmailForGetPassword,
+} from "../../service/authentication";
 import Cookie from "js-cookie";
-export const loginAction = (credential) => async (dispatch) => {
+export const loginAction = (credential, redirect) => async (dispatch) => {
   try {
     const { data } = await login(credential);
 
     Cookie.set("token", data.data.json_object.token);
     dispatch(setAuthenticatedTrue());
-
-    Router.replace("/");
+    if (redirect) {
+      Router.replace(redirect);
+    } else {
+      Router.replace("/");
+    }
   } catch (error) {
     if (error.response) {
       dispatch(setAuthenticatedFalse());
@@ -77,4 +85,15 @@ export const logoutAction = () => (dispatch) => {
   Cookie.remove("token");
   dispatch(setAuthenticatedFalse());
   Router.replace("/");
+};
+
+export const sendEmailForGetPasswordAction = async (email) => {
+  try {
+    const formData = new FormData();
+    formData.append("email", email);
+    const { data } = await sendEmailForGetPassword(formData);
+    console.log(data, "data send email");
+  } catch (error) {
+    console.log(error, "error");
+  }
 };

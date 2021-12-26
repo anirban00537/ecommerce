@@ -1,4 +1,3 @@
-//login
 import request from "../utils/request";
 
 export const login = (credential) => {
@@ -11,4 +10,8 @@ export const signup = (credential) => {
 
 export const getProfileByToken = () => {
   return request.get("/profile");
+};
+
+export const sendEmailForGetPassword = (email) => {
+  return request.post("/password/reset", email);
 };

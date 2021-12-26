@@ -1,6 +1,8 @@
 import { Flex, Text, Button, useColorModeValue } from "@chakra-ui/react";
 import CartItems from "../components/cards/cartItems";
 import { useSelector } from "react-redux";
+import { ssrAuthCheck } from "../middleware/authCheck";
+
 const cart = () => {
   const myItem = useSelector((state) => state.cart.cart);
   console.log(myItem, "all items");
@@ -50,3 +52,8 @@ const cart = () => {
 };
 
 export default cart;
+
+cart.getInitialProps = async (ctx) => {
+  await ssrAuthCheck(ctx);
+  return {};
+};
