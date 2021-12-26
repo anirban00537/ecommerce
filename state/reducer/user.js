@@ -5,6 +5,10 @@ export const userSlice = createSlice({
   initialState: {
     user: null,
     authenticated: false,
+    error: {
+      message: "",
+      status: false,
+    },
   },
   reducers: {
     setUser: (state, action) => {
@@ -16,10 +20,18 @@ export const userSlice = createSlice({
     setAuthenticatedFalse: (state) => {
       state.authenticated = false;
     },
+    setErrorMessageAndStatus: (state, action) => {
+      state.error.message = action.payload.message;
+      state.error.status = action.payload.status;
+    },
   },
 });
 
-export const { setUser, setAuthenticatedTrue, setAuthenticatedFalse } =
-  userSlice.actions;
+export const {
+  setUser,
+  setAuthenticatedTrue,
+  setAuthenticatedFalse,
+  setErrorMessageAndStatus,
+} = userSlice.actions;
 
 export default userSlice.reducer;
