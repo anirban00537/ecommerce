@@ -9,6 +9,7 @@ import {
   Text,
   Button,
   Heading,
+  useToast,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -18,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { authPageRequireCheck } from "../middleware/authCheck";
 import { useRouter } from "next/router";
 export default function Login() {
+  const toast = useToast();
   const router = useRouter();
   const { redirect } = router.query;
   const [credential, setcredential] = useState({
@@ -34,7 +36,7 @@ export default function Login() {
       username: "",
       password: "",
     });
-    const result = await dispatch(loginAction(credential, redirect));
+    const result = await dispatch(loginAction(credential, redirect, toast));
     if (!result) return;
     const { username, password } = result;
     if (username || password) {

@@ -11,32 +11,40 @@ import {
   sendEmailForGetPassword,
 } from "../../service/authentication";
 import Cookie from "js-cookie";
-export const loginAction = (credential, redirect) => async (dispatch) => {
-  try {
-    const { data } = await login(credential);
+export const loginAction =
+  (credential, redirect, toast) => async (dispatch) => {
+    try {
+      const { data } = await login(credential);
 
-    Cookie.set("token", data.data.json_object.token);
-    dispatch(setAuthenticatedTrue());
-    if (redirect) {
-      Router.replace(redirect);
-    } else {
-      Router.replace("/");
+      Cookie.set("token", data.data.json_object.token);
+      dispatch(setAuthenticatedTrue());
+      toast({
+        title: "Login Success",
+        description: "You have successfully logged in",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      if (redirect) {
+        Router.replace(redirect);
+      } else {
+        Router.replace("/");
+      }
+    } catch (error) {
+      if (error.response) {
+        dispatch(setAuthenticatedFalse());
+        return {
+          username: error.response.data.data.json_object.username,
+          password: error.response.data.data.json_object.password,
+        };
+      } else {
+        return {
+          username: "",
+          password: "",
+        };
+      }
     }
-  } catch (error) {
-    if (error.response) {
-      dispatch(setAuthenticatedFalse());
-      return {
-        username: error.response.data.data.json_object.username,
-        password: error.response.data.data.json_object.password,
-      };
-    } else {
-      return {
-        username: "",
-        password: "",
-      };
-    }
-  }
-};
+  };
 
 export const signupAction = (credential) => async (dispatch) => {
   try {
