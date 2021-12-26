@@ -14,23 +14,23 @@ import {
   List,
   ListItem,
 } from "@chakra-ui/react";
-
+import { addCartAction } from "../../state/action/cart";
 import { MdLocalShipping } from "react-icons/md";
-import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { getProductDetailsAction } from "../../state/action/products";
-import { useEffect } from "react";
-export default function Details() {
-  const router = useRouter();
-  const { id } = router.query;
+import { getProductDetails } from "../../service/products";
+
+export default function Details({ product }) {
   const dispatch = useDispatch();
+  //form data for product details
+  console.log(product, "product");
 
-  useEffect(() => {
-    if (id) {
-      dispatch(getProductDetailsAction(id));
-    }
-  }, [dispatch, id]);
-
+  const addToCart = () => {
+    const formData = new FormData();
+    formData.append("product_id", product.id);
+    formData.append("quantity", 1);
+    formData.append("attrs[color]", "black");
+    dispatch(addCartAction(formData));
+  };
   return (
     <Container maxW={"7xl"}>
       <SimpleGrid
@@ -42,9 +42,7 @@ export default function Details() {
           <Image
             rounded={"md"}
             alt={"product image"}
-            src={
-              "https://images.unsplash.com/photo-1596516109370-29001ec8ec36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE1MDl8MHwxfGFsbHx8fHx8fHx8fDE2Mzg5MzY2MzE&ixlib=rb-1.2.1&q=80&w=1080"
-            }
+            src={product.image}
             fit={"cover"}
             align={"center"}
             w={"100%"}
@@ -58,14 +56,14 @@ export default function Details() {
               fontWeight={600}
               fontSize={{ base: "2xl", sm: "4xl", lg: "5xl" }}
             >
-              Automatic Watch
+              {product.title}
             </Heading>
             <Text
               color={useColorModeValue("gray.900", "gray.400")}
               fontWeight={300}
               fontSize={"2xl"}
             >
-              $350.00 USD
+              {product.sale_price}$
             </Text>
           </Box>
 
@@ -132,46 +130,21 @@ export default function Details() {
               <List spacing={2}>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Between lugs:
+                    tax
                   </Text>{" "}
-                  20 mm
+                  {product.tax}
                 </ListItem>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Bracelet:
+                    type
                   </Text>{" "}
-                  leather strap
+                  {product.type}
                 </ListItem>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Case:
+                    Views
                   </Text>{" "}
-                  Steel
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Case diameter:
-                  </Text>{" "}
-                  42 mm
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Dial color:
-                  </Text>{" "}
-                  Black
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Crystal:
-                  </Text>{" "}
-                  Domed, scratch‑resistant sapphire crystal with anti‑reflective
-                  treatment inside
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Water resistance:
-                  </Text>{" "}
-                  5 bar (50 metres / 167 feet){" "}
+                  {product.views}
                 </ListItem>
               </List>
             </Box>
@@ -190,6 +163,7 @@ export default function Details() {
               transform: "translateY(2px)",
               boxShadow: "lg",
             }}
+            onClick={() => addToCart()}
           >
             Add to cart
           </Button>
@@ -202,4 +176,15 @@ export default function Details() {
       </SimpleGrid>
     </Container>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+  const { data } = await getProductDetails(id);
+
+  return {
+    props: {
+      product: data.data.json_object,
+    },
+  };
 }

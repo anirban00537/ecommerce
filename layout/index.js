@@ -6,6 +6,7 @@ import {
   CheckAuthState,
 } from "../state/action/authenticaiton";
 
+import { getCartByTokenAction } from "../state/action/cart";
 import { useEffect } from "react";
 const Layout = ({ children }) => {
   const { authenticated } = useSelector((state) => state.user);
@@ -13,6 +14,7 @@ const Layout = ({ children }) => {
   useEffect(() => {
     if (authenticated) {
       dispatch(getProfileByTokenAction());
+      dispatch(getCartByTokenAction());
     }
   }, [authenticated]);
   useEffect(() => {

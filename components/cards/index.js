@@ -71,10 +71,10 @@ export default function ProductSimple({ details }) {
             </Heading>
             <Stack direction={"row"} align={"center"}>
               <Text fontWeight={800} fontSize={"xl"}>
-                {details.sale_price}TK
+                {details.sale_price}$
               </Text>
               <Text textDecoration={"line-through"} color={"gray.600"}>
-                {details.price_off}TK
+                {details.price_off}$
               </Text>
             </Stack>
           </Stack>

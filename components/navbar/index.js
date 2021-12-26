@@ -22,6 +22,7 @@ function Index() {
   const bg = useColorModeValue("white", "gray.800");
   const mobileNav = useDisclosure();
   const user = useSelector((state) => state.user);
+  const { cart } = useSelector((state) => state.cart);
   return (
     <React.Fragment>
       <chakra.header
@@ -93,7 +94,7 @@ function Index() {
                     color="pink.300"
                     borderColor="gray.300"
                   >
-                    3 items
+                    {cart?.items?.length} Items
                   </Button>
                 </Link>
               )}
