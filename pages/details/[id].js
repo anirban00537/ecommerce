@@ -1,6 +1,5 @@
 import {
   Box,
-  chakra,
   Container,
   Stack,
   Text,
@@ -12,14 +11,26 @@ import {
   SimpleGrid,
   StackDivider,
   useColorModeValue,
-  VisuallyHidden,
   List,
   ListItem,
 } from "@chakra-ui/react";
-import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
-import { MdLocalShipping } from "react-icons/md";
 
+import { MdLocalShipping } from "react-icons/md";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { getProductDetailsAction } from "../../state/action/products";
+import { useEffect } from "react";
 export default function Details() {
+  const router = useRouter();
+  const { id } = router.query;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getProductDetailsAction(id));
+    }
+  }, [dispatch, id]);
+
   return (
     <Container maxW={"7xl"}>
       <SimpleGrid

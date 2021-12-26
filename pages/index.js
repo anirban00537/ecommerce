@@ -2,7 +2,15 @@ import styles from "../styles/Home.module.css";
 import Cover from "../components/cover";
 import Product from "../components/cards";
 import { Box, chakra, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
+import { getProductsAction } from "../state/action/products";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 export default function Home() {
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products.products);
+  useEffect(() => {
+    dispatch(getProductsAction(1));
+  }, []);
   return (
     <div className={styles.container}>
       <Cover />
@@ -29,11 +37,9 @@ export default function Home() {
           </chakra.p>
         </Box>
         <SimpleGrid columns={[1, 2, 3, 4, 5]} spacing={10}>
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
+          {products.map((product) => (
+            <Product key={product.id} details={product} />
+          ))}
         </SimpleGrid>
       </Box>
     </div>

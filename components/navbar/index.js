@@ -58,15 +58,15 @@ function Index() {
                 <Button variant="ghost">Home</Button>
               </Link>
 
-              {user.isAuthenticated === false && (
-                <React.Fragment>
+              {user.authenticated === false && (
+                <>
                   <Link href="/login">
                     <Button variant="ghost">Signin</Button>
                   </Link>
                   <Link href="/register">
                     <Button variant="ghost">Signup</Button>
                   </Link>
-                </React.Fragment>
+                </>
               )}
 
               {user.authenticated && (
@@ -80,22 +80,22 @@ function Index() {
                       borderColor: "whiteAlpha.500",
                     }}
                   >
-                    Anirban
+                    {user?.user?.name}
                   </Button>
                 </Link>
               )}
 
               {user.authenticated && (
-                <Tag size="lg" colorScheme="red" borderRadius="full">
-                  <Avatar
-                    src="https://bit.ly/sage-adebayo"
-                    size="xs"
-                    name="4"
-                    ml={-1}
-                    mr={2}
-                  />
-                  <TagLabel>Item</TagLabel>
-                </Tag>
+                // cart ui with chakra ui
+                <Link href="/cart">
+                  <Button
+                    variant="ghost"
+                    color="pink.300"
+                    borderColor="gray.300"
+                  >
+                    3 items
+                  </Button>
+                </Link>
               )}
             </HStack>
             <Button colorScheme="brand" size="sm">
@@ -133,15 +133,15 @@ function Index() {
                 />
 
                 <Button variant="ghost">Home</Button>
-                {user.isAuthenticated === false && (
-                  <React.Fragment>
+                {user.authenticated === false && (
+                  <>
                     <Link href="/login">
                       <Button variant="ghost">Signin</Button>
                     </Link>
                     <Link href="/register">
                       <Button variant="ghost">Signup</Button>
                     </Link>
-                  </React.Fragment>
+                  </>
                 )}
                 <Button
                   variant="ghost"

@@ -15,6 +15,7 @@ import AlertBox from "../components/alert/Alert";
 import { useState } from "react";
 import { loginAction } from "../state/action/authenticaiton";
 import { useDispatch, useSelector } from "react-redux";
+import { authPageRequireCheck } from "../middleware/authCheck";
 
 export default function Login() {
   const [credential, setcredential] = useState({
@@ -97,3 +98,8 @@ export default function Login() {
     </Flex>
   );
 }
+
+Login.getInitialProps = async (ctx) => {
+  authPageRequireCheck(ctx);
+  return {};
+};

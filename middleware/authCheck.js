@@ -12,3 +12,13 @@ export const ssrAuthCheck = (ctx) => {
     return false;
   }
 };
+
+export const authPageRequireCheck = (ctx) => {
+  const cookies = parseCookies(ctx);
+  if (cookies.token) {
+    ctx.res.writeHead(302, {
+      Location: "/",
+    });
+    ctx.res.end();
+  }
+};
