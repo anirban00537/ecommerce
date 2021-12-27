@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Flex,
   Box,
@@ -11,9 +11,11 @@ import { useDispatch } from "react-redux";
 import { deleteCartItemAction } from "../../state/action/cart";
 
 const cartItems = ({ item }) => {
+  const [cartItem, setcartItem] = useState(item);
   const dispatch = useDispatch();
-
-  console.log(item, "item");
+  useEffect(() => {
+    setcartItem(item);
+  }, [item]);
   return (
     <Box
       w="60%"
@@ -23,6 +25,7 @@ const cartItems = ({ item }) => {
       border={`1px solid ${useColorModeValue("gray.200", "gray.300")}`}
       boxShadow="lg"
     >
+      {!item && "no items in cart"}
       <Flex
         align="space-between"
         justify="space-between"
@@ -36,7 +39,7 @@ const cartItems = ({ item }) => {
           fontWeight="bold"
           color={"blackAlpha.900"}
         >
-          {item?.product.title}
+          {cartItem?.product?.title}
         </Heading>
         <Heading
           as="h3"
@@ -44,7 +47,7 @@ const cartItems = ({ item }) => {
           fontWeight="bold"
           color={"blackAlpha.900"}
         >
-          {item?.product?.sale_price}$
+          {cartItem?.product?.sale_price}$
         </Heading>
         <CloseButton
           size="sm"

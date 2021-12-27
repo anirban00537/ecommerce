@@ -6,7 +6,6 @@ export const ssrAuthCheck = (ctx, redirect) => {
     return true;
   } else {
     if (redirect) {
-      console.log("redirecting to login", redirect);
       ctx.res.writeHead(302, { Location: "/login" + "?redirect=" + redirect });
       ctx.res.end();
       return false;

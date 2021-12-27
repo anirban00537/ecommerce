@@ -2,10 +2,10 @@ import { Flex, Text, Button, useColorModeValue } from "@chakra-ui/react";
 import CartItems from "../components/cards/cartItems";
 import { useSelector } from "react-redux";
 import { ssrAuthCheck } from "../middleware/authCheck";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const cart = () => {
-  const myItem = useSelector((state) => state.cart.cart);
+  const { cart } = useSelector((state) => state.cart);
 
   return (
     <div>
@@ -17,9 +17,9 @@ const cart = () => {
         h="100vh"
         margin={8}
       >
-        {myItem?.items.length <= 0
+        {cart?.items?.length <= 0
           ? "no items in cart"
-          : myItem?.items?.map((item, i) => <CartItems key={i} item={item} />)}
+          : cart?.items.map((item, i) => <CartItems key={i} item={item} />)}
 
         <Flex
           align="center"
@@ -36,14 +36,14 @@ const cart = () => {
             Total
           </Text>
           <Text fontSize="lg" fontWeight="bold">
-            {myItem?.gross_total}$
+            {cart?.gross_total}$
           </Text>
           <Button
             size="lg"
             height="48px"
             width="200px"
             border="2px"
-            disabled={myItem?.items.length <= 0}
+            disabled={cart?.items.length <= 0}
             borderColor="green.500"
           >
             Checkout

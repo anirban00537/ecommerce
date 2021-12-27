@@ -50,7 +50,7 @@ export const loginAction =
 export const signupAction = (credential) => async (dispatch) => {
   try {
     const { data } = await signup(credential);
-    console.log(data, "data register");
+
     Cookie.set("token", data.data.json_object.token);
     dispatch(setAuthenticatedTrue());
     Router.replace("/");
@@ -85,9 +85,7 @@ export const CheckAuthState = () => (dispatch) => {
     } else {
       dispatch(setAuthenticatedFalse());
     }
-  } catch (error) {
-    console.log(error, "error");
-  }
+  } catch (error) {}
 };
 
 export const logoutAction = () => (dispatch) => {
@@ -102,7 +100,6 @@ export const sendEmailForGetPasswordAction = async (email, toast, setsteps) => {
     formData.append("email", email);
     const { data } = await sendEmailForGetPassword(formData);
     if (data.status === 200) {
-      console.log(data.status, "data send email");
       toast({
         title: "Email send Successfully",
         description: "You have recieved a mail please check your email",
@@ -113,7 +110,6 @@ export const sendEmailForGetPasswordAction = async (email, toast, setsteps) => {
       setsteps(2);
     }
   } catch (error) {
-    console.log(error, "error");
     toast({
       title: "Email send Failed",
       description: "Please try again",
@@ -140,7 +136,6 @@ export const verifyEmailOtpAction = async (
     formData.append("password_confirmation", password_confirmation);
     const { data } = await verifyEmailOtpAndResetPassword(formData);
     if (data.status === 200) {
-      console.log(data.status, "data verify otp");
       toast({
         title: "Email Verified Successfully",
         description: "You have successfully verified your email",
