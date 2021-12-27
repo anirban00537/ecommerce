@@ -1,15 +1,22 @@
 import { parseCookies } from "nookies";
 
-export const ssrAuthCheck = (ctx) => {
+export const ssrAuthCheck = (ctx, redirect) => {
   const cookies = parseCookies(ctx);
   if (cookies.token) {
     return true;
   } else {
-    ctx.res.writeHead(302, {
-      Location: "/login",
-    });
-    ctx.res.end();
-    return false;
+    if (redirect) {
+      console.log("redirecting to login", redirect);
+      ctx.res.writeHead(302, { Location: "/login" + "?redirect=" + redirect });
+      ctx.res.end();
+      return false;
+    } else {
+      ctx.res.writeHead(302, {
+        Location: "/login",
+      });
+      ctx.res.end();
+      return false;
+    }
   }
 };
 

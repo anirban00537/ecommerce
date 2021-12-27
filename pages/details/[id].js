@@ -12,6 +12,7 @@ import {
   StackDivider,
   useColorModeValue,
   List,
+  useToast,
   ListItem,
 } from "@chakra-ui/react";
 import { addCartAction } from "../../state/action/cart";
@@ -23,6 +24,7 @@ import { useRouter } from "next/router";
 export default function Details({ product }) {
   const router = useRouter();
   const { id } = router.query;
+  const toast = useToast();
   const { authenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const addToCart = () => {
@@ -34,7 +36,7 @@ export default function Details({ product }) {
     formData.append("product_id", product.id);
     formData.append("quantity", 1);
     formData.append("attrs[color]", "black");
-    dispatch(addCartAction(formData));
+    dispatch(addCartAction(formData, toast));
   };
   return (
     <Container maxW={"7xl"}>

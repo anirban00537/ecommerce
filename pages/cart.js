@@ -6,73 +6,57 @@ import { useEffect, useState } from "react";
 
 const cart = () => {
   const myItem = useSelector((state) => state.cart.cart);
-  const [cartStatus, setcartStatus] = useState(false);
 
-  useEffect(() => {
-    myItem?.items?.length > 0 && setcartStatus(true);
-  }, [myItem]);
-
-  if (!cartStatus) {
-    return (
+  return (
+    <div>
       <Flex
-        align={"center"}
-        justify={"center"}
-        height={["100vh"]}
-        bg={useColorModeValue("gray.50", "gray.800")}
+        align="center"
+        justify="flex-start"
+        direction="column"
+        w="90%"
+        h="100vh"
+        margin={8}
       >
-        <Text>No items in cart</Text>
-      </Flex>
-    );
-  } else {
-    return (
-      <div>
+        {myItem?.items.length <= 0
+          ? "no items in cart"
+          : myItem?.items?.map((item, i) => <CartItems key={i} item={item} />)}
+
         <Flex
           align="center"
-          justify="flex-start"
-          direction="column"
-          w="90%"
-          h="100vh"
-          margin={8}
+          justify="space-between"
+          direction="row"
+          w="60%"
+          bg="white"
+          padding={8}
+          borderRadius="lg"
+          border={`1px solid ${useColorModeValue("gray.200", "gray.300")}`}
+          boxShadow="lg"
         >
-          {myItem?.items?.map((item, i) => (
-            <CartItems key={i} item={item} />
-          ))}
-          <Flex
-            align="center"
-            justify="space-between"
-            direction="row"
-            w="60%"
-            bg="white"
-            padding={8}
-            borderRadius="lg"
-            border={`1px solid ${useColorModeValue("gray.200", "gray.300")}`}
-            boxShadow="lg"
+          <Text fontSize="lg" fontWeight="bold">
+            Total
+          </Text>
+          <Text fontSize="lg" fontWeight="bold">
+            {myItem?.gross_total}$
+          </Text>
+          <Button
+            size="lg"
+            height="48px"
+            width="200px"
+            border="2px"
+            disabled={myItem?.items.length <= 0}
+            borderColor="green.500"
           >
-            <Text fontSize="lg" fontWeight="bold">
-              Total
-            </Text>
-            <Text fontSize="lg" fontWeight="bold">
-              {myItem?.gross_total}$
-            </Text>
-            <Button
-              size="lg"
-              height="48px"
-              width="200px"
-              border="2px"
-              borderColor="green.500"
-            >
-              Checkout
-            </Button>
-          </Flex>
+            Checkout
+          </Button>
         </Flex>
-      </div>
-    );
-  }
+      </Flex>
+    </div>
+  );
 };
 
 export default cart;
 
 cart.getInitialProps = async (ctx) => {
-  await ssrAuthCheck(ctx);
+  await ssrAuthCheck(ctx, "cart");
   return {};
 };

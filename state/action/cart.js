@@ -9,11 +9,17 @@ export const getCartByTokenAction = () => async (dispatch) => {
   } catch (error) {}
 };
 
-export const addCartAction = (foormData) => async (dispatch) => {
+export const addCartAction = (foormData, toast) => async (dispatch) => {
   try {
     const { data } = await getCartByToken(foormData);
     console.log(data, "data");
     dispatch(getCart(data.data.json_object));
+    toast({
+      title: "Successfylly added to cart",
+      description: "",
+      status: "success",
+      duration: 5000,
+    });
   } catch (error) {}
 };
 

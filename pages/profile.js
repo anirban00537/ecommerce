@@ -108,6 +108,6 @@ export default function Profile() {
 }
 
 Profile.getInitialProps = async (ctx) => {
-  await ssrAuthCheck(ctx);
+  await ssrAuthCheck(ctx, "profile");
   return {};
 };
