@@ -15,3 +15,7 @@ export const getProfileByToken = () => {
 export const sendEmailForGetPassword = (email) => {
   return request.post("/password/reset", email);
 };
+
+export const verifyEmailOtpAndResetPassword = (otp) => {
+  return request.post("/password/reset", otp);
+};

@@ -1,10 +1,10 @@
 import { Flex, useColorModeValue } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
 import SendEmail from "../components/cards/sendEmail";
+import Sendotp from "../components/cards/sendOtp";
 
 export default function ForgetPassword() {
-  const { forgetPasswordStep } = useSelector((state) => state.user);
-
+  const [steps, setsteps] = useState(1);
   return (
     <Flex
       minH={"100vh"}
@@ -12,7 +12,8 @@ export default function ForgetPassword() {
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
-      {forgetPasswordStep === 1 && <SendEmail />}
+      {steps === 1 && <SendEmail setsteps={setsteps} />}
+      {steps === 2 && <Sendotp setsteps={setsteps} />}
     </Flex>
   );
 }

@@ -7,18 +7,21 @@ import {
   Button,
   Heading,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { sendEmailForGetPasswordAction } from "../../state/action/authenticaiton";
-import { useDispatch } from "react-redux";
-const SendEmail = () => {
+
+const SendEmail = ({ setsteps }) => {
   const [email, setEmail] = useState("");
-  const dispatch = useDispatch();
+
+  const toast = useToast();
   return (
     <Stack spacing={8} mx={"auto"} maxW={"lg"} py={22} px={12}>
       <Stack align={"center"}>
         <Heading fontSize={"4xl"}>Enter your email</Heading>
       </Stack>
+
       <Box
         rounded={"lg"}
         bg={useColorModeValue("white", "gray.700")}
@@ -43,7 +46,9 @@ const SendEmail = () => {
               _hover={{
                 bg: "blue.500",
               }}
-              onClick={() => sendEmailForGetPasswordAction(email)}
+              onClick={() =>
+                sendEmailForGetPasswordAction(email, toast, setsteps)
+              }
             >
               Send
             </Button>

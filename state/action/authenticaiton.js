@@ -2,9 +2,6 @@ import {
   setAuthenticatedTrue,
   setAuthenticatedFalse,
   setUser,
-  stepOne,
-  stepTwo,
-  stepThree,
 } from "../reducer/user";
 import Router from "next/router";
 import {
@@ -12,6 +9,7 @@ import {
   getProfileByToken,
   signup,
   sendEmailForGetPassword,
+  verifyEmailOtpAndResetPassword,
 } from "../../service/authentication";
 import Cookie from "js-cookie";
 export const loginAction =
@@ -98,16 +96,67 @@ export const logoutAction = () => (dispatch) => {
   Router.replace("/");
 };
 
-export const sendEmailForGetPasswordAction = async (email) => {
+export const sendEmailForGetPasswordAction = async (email, toast, setsteps) => {
   try {
     const formData = new FormData();
     formData.append("email", email);
     const { data } = await sendEmailForGetPassword(formData);
     if (data.status === 200) {
       console.log(data.status, "data send email");
-      stepTwo();
+      toast({
+        title: "Email send Successfully",
+        description: "You have recieved a mail please check your email",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      setsteps(2);
     }
   } catch (error) {
     console.log(error, "error");
+    toast({
+      title: "Email send Failed",
+      description: "Please try again",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
+  }
+};
+
+export const verifyEmailOtpAction = async (
+  otp,
+  email,
+  password,
+  password_confirmation,
+  toast,
+  setsteps
+) => {
+  try {
+    const formData = new FormData();
+    formData.append("otp", otp);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("password_confirmation", password_confirmation);
+    const { data } = await verifyEmailOtpAndResetPassword(formData);
+    if (data.status === 200) {
+      console.log(data.status, "data verify otp");
+      toast({
+        title: "Email Verified Successfully",
+        description: "You have successfully verified your email",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      setsteps(3);
+    }
+  } catch (error) {
+    toast({
+      title: "Email Verification Failed",
+      description: "You have failed to verify your email",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
   }
 };
